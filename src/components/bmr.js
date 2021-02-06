@@ -12,7 +12,8 @@ class bmr extends Component {
             heightInches: '',
             activity: '',
             bmr: '',
-            error: ''
+            error: '',
+            calories: ''
         } 
     }
 
@@ -81,7 +82,38 @@ class bmr extends Component {
         this.setState({bmr: bmrCalc});
 
         this.setState({error: ''})
-        console.log(this.state.weight);
+    }
+
+    calculateCalories(){
+        /*
+        1. Little to no exercise	Daily kilocalories needed = BMR x 1.2
+2. Light exercise (1–3 days per week)	Daily kilocalories needed = BMR x 1.375
+3. Moderate exercise (3–5 days per week)	Daily kilocalories needed = BMR x 1.55
+4. Heavy exercise (6–7 days per week)	Daily kilocalories needed = BMR x 1.725
+5. Very heavy exercise (twice per day, extra heavy workouts)	Daily kilocalories needed = BMR x 1.9
+        */
+
+       let workout = this.state.activity;
+       let bmrValue = this.state.bmr;
+       let caloriesCalc;
+
+        if(workout == 1.2){
+            caloriesCalc = bmrValue * 1.2;
+        }
+        else if(workout == 1.375){
+            caloriesCalc = bmrValue * 1.375;
+        }
+        else if(workout == 1.55){
+            caloriesCalc = bmrValue * 1.55;
+        }
+        else if(workout == 1.725){
+            caloriesCalc = bmrValue * 1.725;
+        }
+        else if(workout == 1.9){
+            caloriesCalc = bmrValue * 1.9;
+        }
+
+        this.setState({calories : caloriesCalc});
     }
 
     render() {
@@ -94,6 +126,11 @@ class bmr extends Component {
         let resultBMR;
         if(this.state.bmr){
             resultBMR = <div className = "result">{this.state.bmr}</div>
+        }
+
+        let resultCalories;
+        if(this.state.calories){
+            resultCalories = <div className = "result">{this.state.calories}</div>
         }
 
         return (
@@ -133,7 +170,8 @@ class bmr extends Component {
                                 <option value="1.9">Extremely Active (Very intense exercise, and physical job, exercise multiple times per day)</option>
                             </select>
                         </div>
-                        <button type="button">Calculate Calories</button>
+                        <button type="button" onClick = {() => this.calculateCalories()}>Calculate Calories</button>
+                        {resultCalories}
                     </div>
                 </div>
             </div>
